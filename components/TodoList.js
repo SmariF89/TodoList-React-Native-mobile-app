@@ -175,12 +175,13 @@ class TodoList extends React.Component {
 						style={styles.input}
 						placeholder={'What has to be done...'}
 						onChangeText={text => this.setState({ inputBox: text })}
-						/* onBlur={() => {
-							setTimeout(() => {
+						onBlur={() => {
+							if (inputBox === '') {
 								this.toggleInput();
-							}, 250);
-						}} */
+							}
+						}}
 						autoFocus={true}
+						value={inputBox}
 					/>
 					<TouchableOpacity
 						style={styles.inputBtn}
