@@ -109,7 +109,7 @@ class ListInput extends React.Component {
 						underlineColorAndroid={'rgba(0,0,0,0)'}
 						onChangeText={text => this.setState({ inputBox: text })}
 						onBlur={() => {
-							if (inputBox === '') {
+							if (inputBox === '' || /^\s*$/.test(inputBox)) {
 								this.toggleInput();
 							}
 						}}
