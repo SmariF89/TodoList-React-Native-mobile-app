@@ -95,7 +95,8 @@ const styles = StyleSheet.create({
 		justifyContent: 'center',
 		paddingLeft: 8,
 		backgroundColor: '#b20e0e',
-		borderRadius: 10
+		borderRadius: 10,
+		height: 40
 	}
 });
 
@@ -139,7 +140,7 @@ class TodoList extends React.Component {
 			}
 		});
 
-		createNewTodo(item, (maxKey + 1).toString());
+		createNewTodo(item, (Number(maxKey) + 1).toString());
 	}
 
 	deleteToDoItem(item) {
@@ -206,7 +207,6 @@ class TodoList extends React.Component {
 	}
 
 	render() {
-		//console.log(this.props);
 		const { todo } = this.props.todos;
 		return (
 			<View style={styles.container}>
