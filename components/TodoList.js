@@ -9,7 +9,9 @@ import {
 } from 'react-native';
 import Swipeable from 'react-native-swipeable';
 import { connect } from 'react-redux';
-import { getAllTodos, createNewTodo, removeTodo } from '../actions/todoActions';
+import { getAllTodos, createNewTodo } from '../actions/todoActions';
+
+import ListItem from './ListItem';
 
 const styles = StyleSheet.create({
 	container: {
@@ -145,11 +147,6 @@ class TodoList extends React.Component {
 		createNewTodo(item, (Number(maxKey) + 1).toString());
 	}
 
-	deleteToDoItem(item) {
-		const { removeTodo } = this.props;
-		removeTodo(item.key);
-	}
-
 	renderTodoItem = ({ item }) => (
 		<Swipeable
 			style={styles.todoItemContainer}
@@ -218,7 +215,7 @@ class TodoList extends React.Component {
 					ListHeaderComponent={
 						<Text style={styles.listHeader}>Today's tasks</Text>
 					}
-					renderItem={this.renderTodoItem}
+					renderItem={({ item }) => <ListItem item={item} />}
 					data={todo}
 					ListFooterComponent={this.renderInput()}
 				/>
@@ -235,5 +232,5 @@ const mapStateToProps = state => {
 
 export default connect(
 	mapStateToProps,
-	{ createNewTodo, getAllTodos, removeTodo }
+	{ createNewTodo, getAllTodos }
 )(TodoList);
