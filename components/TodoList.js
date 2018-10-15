@@ -65,26 +65,28 @@ const styles = StyleSheet.create({
 		borderColor: 'gray'
 	},
 	input: {
-		flex: 1,
-		height: 40,
+		flex: 5,
 		borderColor: 'gray',
 		borderWidth: 1,
-		marginBottom: 4,
-		paddingLeft: 4
+		paddingLeft: 4,
+		marginLeft: 8
 	},
 	inputBtn: {
-		marginBottom: 15,
-		paddingTop: 10,
-		paddingBottom: 10,
+		flex: 1,
+		paddingTop: 15,
+		paddingBottom: 15,
+		marginRight: 4,
+		marginLeft: 4,
 		borderWidth: 1,
 		borderStyle: 'solid',
 		borderColor: 'gray',
-		backgroundColor: '#4286f4',
+		backgroundColor: '#0a4784',
 		borderRadius: 10
 	},
 	inputBtnText: {
 		textAlign: 'center',
-		fontSize: 18
+		fontSize: 18,
+		color: 'white'
 	},
 	swipeText: {
 		fontSize: 18,
@@ -174,6 +176,7 @@ class TodoList extends React.Component {
 					<TextInput
 						style={styles.input}
 						placeholder={'What has to be done...'}
+						underlineColorAndroid={'rgba(0,0,0,0)'}
 						onChangeText={text => this.setState({ inputBox: text })}
 						onBlur={() => {
 							if (inputBox === '') {
