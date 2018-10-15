@@ -6,6 +6,9 @@ import {
 	StyleSheet,
 	TouchableOpacity
 } from 'react-native';
+import { connect } from 'react-redux';
+
+import { getAllTodos, createNewTodo } from '../actions/todoActions';
 
 const styles = StyleSheet.create({
 	container: {
@@ -52,9 +55,13 @@ const styles = StyleSheet.create({
 	}
 });
 
-export default class TodoList extends React.Component {
+class TodoList extends React.Component {
 	constructor(props) {
 		super(props);
+
+		this.state = {
+			inputBox: ''
+		};
 
 		this.tempTodoItems = [
 			{
@@ -94,6 +101,11 @@ export default class TodoList extends React.Component {
 		console.log('TodoList mounted!');
 	}
 
+	addTodoItem(item) {
+		const { createNewTodo } = this.props;
+		createNewTodo(item);
+	}
+
 	renderTodoItem = ({ item }) => (
 		<View style={styles.todoItemContainer}>
 			<View style={styles.infoContainer}>
@@ -115,6 +127,7 @@ export default class TodoList extends React.Component {
 					data={this.tempTodoItems}
 					ListFooterComponent={
 						<TouchableOpacity
+							onPress={() => this.addTodoItem('testItem')}
 							style={styles.btn}
 							activeOpacity={0.5}>
 							<Text style={styles.btnText}>
@@ -127,3 +140,14 @@ export default class TodoList extends React.Component {
 		);
 	}
 }
+
+const mapStateToProps = state => {
+	return {
+		createNewTodo: state.createNewTodo
+	};
+};
+
+export default connect(
+	mapStateToProps,
+	{ createNewTodo }
+)(TodoList);

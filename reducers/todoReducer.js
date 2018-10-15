@@ -10,6 +10,9 @@ const todoReducer = (state = [], action) => {
 		case GET_ALL_TODOS:
 			break;
 		case CREATE_NEW_TODO:
+			state.push(action.payload);
+			console.log('REDUCER:', state);
+			return state;
 			break;
 		case REMOVE_TODO:
 			break;

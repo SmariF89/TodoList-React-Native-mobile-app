@@ -13,6 +13,7 @@ export const getAllTodos = () => {
 };
 
 export const createNewTodo = todoItem => {
+	console.warn('ACTION:', todoItem);
 	return {
 		type: CREATE_NEW_TODO,
 		payload: todoItem
