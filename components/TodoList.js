@@ -7,9 +7,9 @@ import {
 	TouchableOpacity,
 	TextInput
 } from 'react-native';
+import Swipeable from 'react-native-swipeable';
 import { connect } from 'react-redux';
-
-import { getAllTodos, createNewTodo } from '../actions/todoActions';
+import { getAllTodos, createNewTodo, removeTodo } from '../actions/todoActions';
 
 const styles = StyleSheet.create({
 	container: {
@@ -85,6 +85,17 @@ const styles = StyleSheet.create({
 	inputBtnText: {
 		textAlign: 'center',
 		fontSize: 18
+	},
+	swipeText: {
+		fontSize: 18,
+		color: 'white'
+	},
+	rightSwipeItem: {
+		flex: 1,
+		justifyContent: 'center',
+		paddingLeft: 8,
+		backgroundColor: '#b20e0e',
+		borderRadius: 10
 	}
 });
 
@@ -118,7 +129,7 @@ class TodoList extends React.Component {
 		const { createNewTodo, todos } = this.props;
 
 		if (todos.length === 0) {
-			createNewTodo(item, minKey);
+			createNewTodo(item, minKey.toString());
 			return;
 		}
 
@@ -128,17 +139,30 @@ class TodoList extends React.Component {
 			}
 		});
 
-		createNewTodo(item, maxKey + 1);
+		createNewTodo(item, (maxKey + 1).toString());
+	}
+
+	deleteToDoItem(item) {
+		const { removeTodo } = this.props;
+		removeTodo(item.key);
 	}
 
 	renderTodoItem = ({ item }) => (
-		<View style={styles.todoItemContainer}>
+		<Swipeable
+			style={styles.todoItemContainer}
+			rightButtons={[
+				<TouchableOpacity
+					onPress={() => this.deleteToDoItem(item)}
+					style={styles.rightSwipeItem}>
+					<Text style={styles.swipeText}>Delete</Text>
+				</TouchableOpacity>
+			]}>
 			<View style={styles.infoContainer}>
 				<Text key={item.key} style={styles.text}>
 					{item.description}
 				</Text>
 			</View>
-		</View>
+		</Swipeable>
 	);
 
 	renderInput() {
@@ -182,6 +206,7 @@ class TodoList extends React.Component {
 	}
 
 	render() {
+		//console.log(this.props);
 		const { todo } = this.props.todos;
 		return (
 			<View style={styles.container}>
@@ -200,12 +225,11 @@ class TodoList extends React.Component {
 
 const mapStateToProps = state => {
 	return {
-		createNewTodo: state.createNewTodo,
 		todos: state
 	};
 };
 
 export default connect(
 	mapStateToProps,
-	{ createNewTodo, getAllTodos }
+	{ createNewTodo, getAllTodos, removeTodo }
 )(TodoList);

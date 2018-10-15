@@ -19,7 +19,7 @@ const todoReducer = (state = [], action) => {
 				}
 			];
 		case REMOVE_TODO:
-			break;
+			return state.filter(todoItem => todoItem.key !== action.payload);
 		case TOGGLE_TODO:
 			break;
 		default:

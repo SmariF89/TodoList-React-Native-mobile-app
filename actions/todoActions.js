@@ -19,10 +19,10 @@ export const createNewTodo = (todoItem, key) => {
 	};
 };
 
-export const removeTodo = todoItem => {
+export const removeTodo = todoItemKey => {
 	return {
 		type: REMOVE_TODO,
-		payload: todoItem
+		payload: todoItemKey
 	};
 };
 
