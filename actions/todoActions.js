@@ -12,11 +12,10 @@ export const getAllTodos = () => {
 	};
 };
 
-export const createNewTodo = todoItem => {
-	console.warn('ACTION:', todoItem);
+export const createNewTodo = (todoItem, key) => {
 	return {
 		type: CREATE_NEW_TODO,
-		payload: todoItem
+		payload: { todoItem, key }
 	};
 };
 
