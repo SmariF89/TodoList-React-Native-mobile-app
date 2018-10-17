@@ -13,6 +13,15 @@ const styles = StyleSheet.create({
 		borderBottomWidth: 1,
 		borderColor: 'gray'
 	},
+	todoItemContainerOverDue: {
+		flex: 1,
+		flexDirection: 'row',
+		paddingTop: 10,
+		paddingBottom: 10,
+		borderBottomWidth: 1,
+		borderColor: 'gray',
+		backgroundColor: '#f2baba'
+	},
 	swipeText: {
 		fontSize: 18,
 		color: 'white'
@@ -43,9 +52,15 @@ class ListItem extends React.Component {
 
 	render() {
 		const { item } = this.props;
+		const dueTime = new Date(item.timeStamp);
+		const overDue = new Date() > dueTime;
 		return (
 			<Swipeable
-				style={styles.todoItemContainer}
+				style={
+					overDue
+						? styles.todoItemContainerOverDue
+						: styles.todoItemContainer
+				}
 				rightButtons={[
 					<TouchableOpacity
 						onPress={() => this.deleteToDoItem(item)}
@@ -55,7 +70,7 @@ class ListItem extends React.Component {
 				]}>
 				<View style={styles.infoContainer}>
 					<Text key={item.key} style={styles.text}>
-						{item.description}
+						{`${item.description} - ${dueTime.toLocaleString()}`}
 					</Text>
 				</View>
 			</Swipeable>

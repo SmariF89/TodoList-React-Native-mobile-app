@@ -6,6 +6,7 @@ import {
 	TextInput,
 	StyleSheet
 } from 'react-native';
+import DateTimePicker from 'react-native-modal-datetime-picker';
 import { createNewTodo } from '../actions/todoActions';
 import { connect } from 'react-redux';
 
@@ -57,6 +58,18 @@ const styles = StyleSheet.create({
 		paddingBottom: 12,
 		textAlign: 'center',
 		fontSize: 24
+	},
+	timePickerBtn: {
+		flex: 1,
+		paddingTop: 15,
+		paddingBottom: 15,
+		marginRight: 4,
+		marginLeft: 4,
+		borderWidth: 1,
+		borderStyle: 'solid',
+		borderColor: 'gray',
+		backgroundColor: '#42f4b3',
+		borderRadius: 10
 	}
 });
 
@@ -66,9 +79,16 @@ class ListInput extends React.Component {
 
 		this.state = {
 			inputBox: '',
-			inputIsActive: false
+			inputIsActive: false,
+			pickedDateTime: '',
+			timePickerIsActive: false
 		};
 	}
+
+	toggleTimePicker = () => {
+		const { timePickerIsActive } = this.state;
+		this.setState({ timePickerIsActive: !timePickerIsActive });
+	};
 
 	toggleInput() {
 		const { inputIsActive } = this.state;
@@ -83,6 +103,7 @@ class ListInput extends React.Component {
 		let maxKey = 0;
 		this.setState({ inputBox: '' });
 		const { createNewTodo, todos } = this.props;
+		const { pickedDateTime } = this.state;
 
 		if (todos.length === 0) {
 			createNewTodo(item, minKey.toString());
@@ -95,11 +116,17 @@ class ListInput extends React.Component {
 			}
 		});
 
-		createNewTodo(item, (Number(maxKey) + 1).toString());
+		let defaultTimeStamp = new Date();
+		defaultTimeStamp.setDate(defaultTimeStamp.getDate() + 1);
+		createNewTodo(
+			item,
+			(Number(maxKey) + 1).toString(),
+			pickedDateTime == '' ? defaultTimeStamp : pickedDateTime
+		);
 	}
 
 	render() {
-		const { inputIsActive, inputBox } = this.state;
+		const { inputIsActive, inputBox, timePickerIsActive } = this.state;
 		if (inputIsActive) {
 			return (
 				<View style={styles.inputContainer}>
@@ -108,13 +135,26 @@ class ListInput extends React.Component {
 						placeholder={'What has to be done...'}
 						underlineColorAndroid={'rgba(0,0,0,0)'}
 						onChangeText={text => this.setState({ inputBox: text })}
-						onBlur={() => {
+						/* onBlur={() => {
 							if (inputBox === '' || /^\s*$/.test(inputBox)) {
 								this.toggleInput();
 							}
-						}}
+						}} */
 						autoFocus={true}
 						value={inputBox}
+					/>
+					<TouchableOpacity
+						style={styles.timePickerBtn}
+						onPress={this.toggleTimePicker}>
+						<Text style={styles.inputBtnText}>When?</Text>
+					</TouchableOpacity>
+					<DateTimePicker
+						mode={'datetime'}
+						isVisible={timePickerIsActive}
+						onConfirm={date =>
+							this.setState({ pickedDateTime: date })
+						}
+						onCancel={this.toggleTimePicker}
 					/>
 					<TouchableOpacity
 						style={styles.inputBtn}

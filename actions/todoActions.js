@@ -12,10 +12,10 @@ export const getAllTodos = () => {
 	};
 };
 
-export const createNewTodo = (todoItem, key) => {
+export const createNewTodo = (todoItem, key, timeStamp) => {
 	return {
 		type: CREATE_NEW_TODO,
-		payload: { todoItem, key }
+		payload: { todoItem, key, timeStamp }
 	};
 };
 

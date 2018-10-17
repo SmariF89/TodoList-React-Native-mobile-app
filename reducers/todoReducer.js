@@ -15,7 +15,8 @@ const todoReducer = (state = [], action) => {
 				{
 					key: action.payload.key,
 					description: action.payload.todoItem,
-					done: false
+					done: false,
+					timeStamp: action.payload.timeStamp
 				}
 			];
 		case REMOVE_TODO:
