@@ -43,10 +43,17 @@ const styles = StyleSheet.create({
 	infoContainer: {
 		paddingLeft: 8,
 		justifyContent: 'space-around',
+		flexDirection: 'row'
+	},
+	check: {
+		borderWidth: 1,
 		flex: 1
 	},
 	text: {
-		fontSize: 24
+		flex: 8,
+		fontSize: 24,
+		marginTop: 5,
+		alignSelf: 'flex-start'
 	}
 });
 
@@ -68,7 +75,7 @@ class ListItem extends React.Component {
 		return (
 			<Swipeable
 				style={
-					overDue && item.done
+					overDue && !item.done
 						? styles.todoItemContainerOverDue
 						: styles.todoItemContainer
 				}
@@ -81,6 +88,7 @@ class ListItem extends React.Component {
 				]}>
 				<View style={styles.infoContainer}>
 					<CheckBox
+						style={styles.check}
 						key={item.key}
 						onValueChange={() => this.setToggle(item.key)}
 						value={item.done}
