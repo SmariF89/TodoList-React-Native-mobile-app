@@ -34,10 +34,18 @@ const styles = StyleSheet.create({
   infoContainer: {
     paddingLeft: 8,
     justifyContent: 'space-around',
+    flexDirection: 'row'
+  },
+  check: {
+    borderWidth: 1,
     flex: 1
   },
   text: {
-    fontSize: 24
+    flex: 5,
+    fontSize: 24,
+    alignSelf: 'flex-start',
+    marginLeft: 40,
+    marginTop: -36
   }
 })
 
@@ -69,6 +77,7 @@ class ListItem extends React.Component {
       >
         <View styles={styles.infoContainer}>
           <CheckBox
+            style={styles.check}
             key={item.key}
             onValueChange={() => this.setToggle(item.key)}
             value={item.done}
