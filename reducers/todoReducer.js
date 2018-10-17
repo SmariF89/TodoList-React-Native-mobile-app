@@ -8,11 +8,18 @@ import {
 const todoReducer = (state = [], action) => {
 	switch (action.type) {
 		case GET_ALL_TODOS:
-			break;
+			return state;
 		case CREATE_NEW_TODO:
-			break;
+			return [
+				...state,
+				{
+					key: action.payload.key,
+					description: action.payload.todoItem,
+					done: false
+				}
+			];
 		case REMOVE_TODO:
-			break;
+			return state.filter(todoItem => todoItem.key !== action.payload);
 		case TOGGLE_TODO:
 			break;
 		default:
