@@ -22,7 +22,15 @@ const todoReducer = (state = [], action) => {
 		case REMOVE_TODO:
 			return state.filter(todoItem => todoItem.key !== action.payload);
 		case TOGGLE_TODO:
-			break;
+			return state.map(todoItem => {
+				console.log(todoItem);
+				if (todoItem.key == action.payload) {
+					return Object.assign({}, todoItem, {
+						done: !todoItem.done
+					});
+				}
+				return todoItem;
+			});
 		default:
 			return state;
 	}

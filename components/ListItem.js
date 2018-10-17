@@ -1,7 +1,13 @@
 import React from 'react';
-import { TouchableOpacity, View, Text, StyleSheet } from 'react-native';
+import {
+	TouchableOpacity,
+	View,
+	Text,
+	StyleSheet,
+	CheckBox
+} from 'react-native';
 import Swipeable from 'react-native-swipeable';
-import { removeTodo } from '../actions/todoActions';
+import { removeTodo, toggleTodo } from '../actions/todoActions';
 import { connect } from 'react-redux';
 
 const styles = StyleSheet.create({
@@ -50,6 +56,11 @@ class ListItem extends React.Component {
 		removeTodo(item.key);
 	}
 
+	setToggle(key) {
+		const { toggleTodo } = this.props;
+		toggleTodo(key);
+	}
+
 	render() {
 		const { item } = this.props;
 		const dueTime = new Date(item.timeStamp);
@@ -57,7 +68,7 @@ class ListItem extends React.Component {
 		return (
 			<Swipeable
 				style={
-					overDue
+					overDue && item.done
 						? styles.todoItemContainerOverDue
 						: styles.todoItemContainer
 				}
@@ -69,6 +80,11 @@ class ListItem extends React.Component {
 					</TouchableOpacity>
 				]}>
 				<View style={styles.infoContainer}>
+					<CheckBox
+						key={item.key}
+						onValueChange={() => this.setToggle(item.key)}
+						value={item.done}
+					/>
 					<Text key={item.key} style={styles.text}>
 						{`${item.description} - ${dueTime.toLocaleString()}`}
 					</Text>
@@ -86,5 +102,5 @@ const mapStateToProps = state => {
 
 export default connect(
 	mapStateToProps,
-	{ removeTodo }
+	{ removeTodo, toggleTodo }
 )(ListItem);
